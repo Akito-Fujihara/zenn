@@ -115,4 +115,7 @@ pod/nginx created
 ❯ kubectl delete pod nginx
 pod "nginx" deleted
 ```
-
+# 参考資料
+- https://book.kubebuilder.io/architecture.html
+- https://github.com/kubernetes-sigs/controller-runtime
+- https://github.com/Akito-Fujihara/controller-runtime 
