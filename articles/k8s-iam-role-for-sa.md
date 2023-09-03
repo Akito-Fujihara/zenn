@@ -4,7 +4,7 @@ emoji: "✨"
 type: "tech" # tech: 技術記事 / idea: アイデア
 
 topics: ["kubernetes", "irsa"]
-published: false
+published: true
 ---
 
 # 自己紹介
