@@ -2,6 +2,7 @@
 title: "Kubernetes irsaとは？"
 emoji: "✨"
 type: "tech" # tech: 技術記事 / idea: アイデア
+
 topics: ["kubernetes", "irsa"]
 published: false
 ---
