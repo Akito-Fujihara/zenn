@@ -80,4 +80,3 @@ $ hello world!
 Linuxではアプリケーションとカーネル間のインターフェイスの取り決めとしてAPIを定義しているため同じプログラムで違ったプログラムを操作することができるようになっています。
 
 ![](/images/device-access-detail.drawio.png)
-
