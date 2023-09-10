@@ -14,5 +14,5 @@ published: false
 
 # EventBridgeとは
 
-# １０min ごとに s3 に txt file を uploadする定時実行処理を作成してみる
+# １０分 ごとに s3 に txt file を uploadする定時実行処理を作成してみる
 
