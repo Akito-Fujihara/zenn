@@ -3,7 +3,7 @@ title: "EKSで始めるArgo Workflows"
 emoji: "✨"
 type: "tech" # tech: 技術記事 / idea: アイデア
 topics: ["kubernetes", "eks", "argoworkflows"]
-published: false
+published: true
 ---
 
 # 自己紹介
