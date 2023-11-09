@@ -1,5 +1,5 @@
 ---
-title: "EKSで始めるArgo Workflows(Artifact Repository)"
+title: "EKSで始めるArgo Workflows(Workflow Archive)"
 emoji: "✨"
 type: "tech" # tech: 技術記事 / idea: アイデア
 topics: ["kubernetes", "eks", "argoworkflows", "workflowarchive"]
