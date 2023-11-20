@@ -13,5 +13,7 @@ published: false
 # Clean Architecture とは
 Clean Architecture とは
 
+# Go による Clean Architecture の雛形
+
 # 参考資料
 - https://www.nuits.jp/entry/easiest-clean-architecture-2019-09
