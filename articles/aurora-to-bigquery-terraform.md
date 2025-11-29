@@ -3,12 +3,12 @@ title: "Terraform で構築する Aurora → BigQuery データパイプライ�
 emoji: "📊"
 type: "tech"
 topics: ["terraform", "aws", "gcp", "bigquery", "dms"]
-published: false
+published: true
 ---
 
 # はじめに
 
-RDBのデータを分析基盤で活用したいケースは多くあります。しかし、本番DBに直接クエリを投げると負荷やセキュリティの問題が発生するため、分析用途に特化したデータ基盤へデータを連携することが一般的です。
+RDB のデータを分析基盤で活用したいケースは多くあります。しかし、本番 DB に直接クエリを投げると負荷やセキュリティの問題が発生するため、分析用途に特化したデータ基盤へデータを連携することが一般的です。
 
 本記事では、AWS Aurora（MySQL）から Google BigQuery へデータを連携するパイプラインを Terraform で構築する方法を解説します。
 
@@ -25,14 +25,14 @@ RDBのデータを分析基盤で活用したいケースは多くあります�
 
 各コンポーネントの役割：
 
-| コンポーネント | 役割 |
-|---------------|------|
-| DMS Serverless | Aurora → S3 へのデータ抽出・変換（Parquet化） |
-| S3 | 一時的なデータ保存場所（AWS側） |
-| EventBridge Scheduler | DMS の定期実行トリガー |
-| Storage Transfer Service | S3 → GCS のクロスクラウドデータ転送 |
-| GCS | 分析用データの保存場所（GCP側） |
-| BigQuery External Table | GCS 上のデータを直接クエリ |
+| コンポーネント           | 役割                                           |
+| ------------------------ | ---------------------------------------------- |
+| DMS Serverless           | Aurora → S3 へのデータ抽出・変換（Parquet 化） |
+| S3                       | 一時的なデータ保存場所（AWS 側）               |
+| EventBridge Scheduler    | DMS の定期実行トリガー                         |
+| Storage Transfer Service | S3 → GCS のクロスクラウドデータ転送            |
+| GCS                      | 分析用データの保存場所（GCP 側）               |
+| BigQuery External Table  | GCS 上のデータを直接クエリ                     |
 
 # Aurora → BigQuery 連携方法の比較
 
@@ -40,15 +40,15 @@ Aurora から BigQuery へデータを連携する代表的な方法として、
 
 ## Datastream + BigQuery との比較
 
-| 項目 | 本構成（DMS + Storage Transfer） | Datastream + BigQuery |
-|-----|----------------------------------|----------------------|
-| **Aurora 対応** | ○（DMS が Aurora を直接サポート） | △（Aurora 非対応、MySQL のみ） |
-| **ネットワーク** | インターネット経由（S3/GCS） | VPN / Cloud Interconnect 必要 |
-| **データ形式** | Parquet（カラム型、圧縮効率高） | BigQuery ネイティブ |
-| **CDC** | ○（DMS CDC 対応） | ○（ネイティブ CDC） |
-| **マスキング** | DMS でカラム除外 or BigQuery | BigQuery のみ |
-| **サーバーレス** | ○ | ○ |
-| **リアルタイム性** | 中（定期バッチ） | 高（継続的レプリケーション） |
+| 項目               | 本構成（DMS + Storage Transfer）  | Datastream + BigQuery          |
+| ------------------ | --------------------------------- | ------------------------------ |
+| **Aurora 対応**    | ○（DMS が Aurora を直接サポート） | △（Aurora 非対応、MySQL のみ） |
+| **ネットワーク**   | インターネット経由（S3/GCS）      | VPN / Cloud Interconnect 必要  |
+| **データ形式**     | Parquet（カラム型、圧縮効率高）   | BigQuery ネイティブ            |
+| **CDC**            | ○（DMS CDC 対応）                 | ○（ネイティブ CDC）            |
+| **マスキング**     | DMS でカラム除外 or BigQuery      | BigQuery のみ                  |
+| **サーバーレス**   | ○                                 | ○                              |
+| **リアルタイム性** | 中（定期バッチ）                  | 高（継続的レプリケーション）   |
 
 ## 本構成を選んだ理由
 
@@ -153,11 +153,11 @@ resource "aws_dms_replication_config" "main" {
 
 ### Parquet 設定のポイント
 
-| 設定項目 | 値 | 説明 |
-|---------|---|------|
-| `data_format` | parquet | Parquet 形式で出力 |
-| `compression_type` | GZIP | 圧縮してファイルサイズを削減 |
-| `parquet_version` | parquet-2-0 | Parquet 2.0 形式（より効率的） |
+| 設定項目                | 値            | 説明                                 |
+| ----------------------- | ------------- | ------------------------------------ |
+| `data_format`           | parquet       | Parquet 形式で出力                   |
+| `compression_type`      | GZIP          | 圧縮してファイルサイズを削減         |
+| `parquet_version`       | parquet-2-0   | Parquet 2.0 形式（より効率的）       |
 | `timestamp_column_name` | dms_timestamp | DMS 実行時刻のタイムスタンプ列を追加 |
 
 ## S3 バケット
@@ -650,7 +650,8 @@ resource "google_project_iam_member" "bigquery_data_viewer" {
 本サンプルでは EventBridge Scheduler（JST 基準）と Storage Transfer Job（UTC 基準）が独立して動作しています。そのため、DMS の完了前に Storage Transfer が走ると、S3 の最新データが GCS に反映されない可能性があります。
 
 **対策：**
-1. **スケジュールをずらす**: DMS 完了後に十分な余裕を持って Storage Transfer を開始する（例: DMS 開始から1時間後）
+
+1. **スケジュールをずらす**: DMS 完了後に十分な余裕を持って Storage Transfer を開始する（例: DMS 開始から 1 時間後）
 2. **イベント駆動にする**: DMS 完了を EventBridge で検知し、Lambda 経由で Storage Transfer を開始する設計に変更する
 
 # Full-load と CDC（差分同期）について
@@ -669,12 +670,12 @@ CDC は本番運用で推奨される方式です：
 
 本サンプルでは簡略化のため `full-load` を設定しています。
 
-| 項目 | Full-load | CDC |
-|-----|----------|-----|
-| 転送データ | 毎回全量 | 変更分のみ |
-| リアルタイム性 | 低（定期実行） | 高（継続的） |
-| 設定の複雑さ | シンプル | 複雑 |
-| Aurora 側の要件 | なし | バイナリログの有効化 |
+| 項目            | Full-load      | CDC                  |
+| --------------- | -------------- | -------------------- |
+| 転送データ      | 毎回全量       | 変更分のみ           |
+| リアルタイム性  | 低（定期実行） | 高（継続的）         |
+| 設定の複雑さ    | シンプル       | 複雑                 |
+| Aurora 側の要件 | なし           | バイナリログの有効化 |
 
 実運用では CDC の採用を検討してください。CDC を使用する場合は `replication_type` を `full-load-and-cdc` または `cdc` に変更し、Aurora 側でバイナリログを有効化する必要があります。
 
@@ -683,6 +684,7 @@ CDC は本番運用で推奨される方式です：
 本記事では、Terraform を使用して Aurora から BigQuery へのデータパイプラインを構築する方法を解説しました。
 
 主なポイント：
+
 - DMS Serverless でサーバーレスなデータ抽出
 - Parquet 形式で効率的なデータ保存
 - OpenID Connect フェデレーションでセキュアなクロスクラウド連携
