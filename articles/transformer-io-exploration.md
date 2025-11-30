@@ -3,7 +3,7 @@ title: "GPT-2 で理解する Transformer の入出力 - データ構造から�
 emoji: "🤖"
 type: "tech"
 topics: ["transformer", "gpt2", "nlp", "python", "huggingface"]
-published: false
+published: true
 ---
 
 # はじめに
