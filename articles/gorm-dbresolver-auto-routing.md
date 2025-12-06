@@ -3,7 +3,7 @@ title: "GORM で Reader/Writer を自動判定する仕組み"
 emoji: "🔀"
 type: "tech"
 topics: ["go", "gorm", "database", "mysql"]
-published: false
+published: true
 ---
 
 # はじめに
