@@ -265,8 +265,6 @@ GORM の DBResolver は以下の仕組みで自動的に Reader/Writer を振り
 
 この仕組みにより、**開発者は明示的に Reader/Writer を指定する必要がなく**、GORM が自動的に最適な接続を選択してくれます。
 
-特に `switchGuess` 関数の SQL 解析による自動判定が秀逸で、Raw SQL を使う場合でも意識せずに適切な DB に接続できるのは大きなメリットです。
-
 # 参考資料
 
 - [GORM DBResolver 公式ドキュメント](https://gorm.io/docs/dbresolver.html)
